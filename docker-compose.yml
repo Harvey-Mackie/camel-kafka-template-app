@@ -45,3 +45,21 @@ services:
       KAFKA_BROKER: kafka:9092
     ports:
       - "8080:8080"
+
+  accounting:
+    build: ./accounting
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKER: kafka:9092
+    ports:
+      - "8081:8081"
+
+  posting:
+    build: ./posting
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKER: kafka:9092
+    ports:
+      - "8082:8082"
