@@ -1,0 +1,28 @@
+template header
+    title
+    conditions
+    derivationType
+    derivationAmount
+    derivationDescription
+
+package com.example.accounting.rules;
+
+import com.example.accounting.model.PaymentEntity;
+
+global PaymentEntity entity;
+
+template "rulesTemplate"
+
+rule "@{title}"
+when
+    @{conditions}
+then
+    entity.getCharges().add(new PaymentEntity.Charge(
+        "@{derivationType}",
+        @{derivationAmount},
+        "@{derivationDescription}"
+    ));
+    System.out.println("Rule triggered: @{title}");
+end
+
+end template

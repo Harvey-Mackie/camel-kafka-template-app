@@ -1,15 +1,13 @@
 {
   "transactionType": "DEBIT",
   "transactionId": "12345",
-  "timestamp": "2024-08-09T12:00:00Z",
   "customerId": "CUST123",
-  "accountNumber": "ACC123456789",
   "amount": 100.50,
   "currency": "USD",
-  "description": "Purchase at Store XYZ",
-  "merchantDetails": {
-    "merchantId": "MERCHANT123",
-    "merchantName": "Store XYZ",
-    "merchantLocation": "New York, NY"
-  }
+  "description": "Payment for Invoice #12345",
+  "notifications": [
+    {
+      "message": "Payment processed successfully"
+    }
+  ]
 }
