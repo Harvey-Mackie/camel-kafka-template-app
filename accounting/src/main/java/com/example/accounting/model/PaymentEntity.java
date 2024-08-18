@@ -16,8 +16,12 @@ public class PaymentEntity {
     private double amount;
     private String currency;
     private String description;
-    private List<Notification> notifications;
-    private List<Charge> charges;
+    private List<Notification> notifications = new ArrayList<>();
+    private List<Charge> charges = new ArrayList<>();
+
+    public PaymentEntity(String transactionType) {
+        this.transactionType = transactionType;
+    }
 
     @Data
     @NoArgsConstructor

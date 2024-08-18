@@ -14,8 +14,6 @@ global PaymentEntity entity;
 template "rulesTemplate"
 
 rule "@{title}"
-when
-    @{condition}
 then
     entity.getCharges().add(new PaymentEntity.Charge(
         "@{derivationType}",

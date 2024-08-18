@@ -1,5 +1,6 @@
 package com.example.accounting.routes;
 
+import com.example.accounting.model.DRLStyle;
 import com.example.accounting.model.PaymentEntity;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
@@ -30,7 +31,7 @@ public class KafkaRoute extends RouteBuilder {
                     }
 
                     // Apply all rules to the entity
-                    PaymentEntity modifiedEntity = rulesEngineService.applyAllRules(entity);
+                    PaymentEntity modifiedEntity = rulesEngineService.applyAllRules(entity, DRLStyle.DEFAULT);
 
                     exchange.getIn().setBody(modifiedEntity);
                 })
