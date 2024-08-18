@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting
+  namespace: mealie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accounting
+  template:
+    metadata:
+      labels:
+        app: accounting
+    spec:
+      imagePullSecrets:
+        - name: my-docker-secret
+      containers:
+      - name: accounting
+        image: hmack001/personal:accounting-v1.0
+        ports:
+        - containerPort: 8084
+        env:
+        - name: KAFKA_BROKER
+          value: "kafka:9092"

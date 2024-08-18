@@ -1,4 +1,5 @@
 version: '3.8'
+name: accountingservices
 
 services:
   zookeeper:
@@ -39,8 +40,6 @@ services:
 
   adapter:
     build: ./adapter
-    depends_on:
-      - kafka
     environment:
       KAFKA_BROKER: kafka:9092
     ports:
@@ -48,17 +47,13 @@ services:
 
   accounting:
     build: ./accounting
-    depends_on:
-      - kafka
     environment:
       KAFKA_BROKER: kafka:9092
     ports:
-      - "8081:8081"
+      - "8084:8084"
 
   posting:
     build: ./posting
-    depends_on:
-      - kafka
     environment:
       KAFKA_BROKER: kafka:9092
     ports:

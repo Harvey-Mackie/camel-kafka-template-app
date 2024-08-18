@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posting
+  template:
+    metadata:
+      labels:
+        app: posting
+    spec:
+      imagePullSecrets:
+        - name: my-docker-secret
+      containers:
+      - name: posting
+        image: hmack001/personal:posting-v1.0
+        ports:
+        - containerPort: 8082
+        env:
+        - name: KAFKA_BROKER
+          value: "kafka:9092"
