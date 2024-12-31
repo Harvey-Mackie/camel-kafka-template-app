@@ -1,24 +1,24 @@
 #!/bin/bash
 
-# Kafka broker details
-BROKER="localhost:9092"
-TOPIC="accounting-request-topic"
+# Variables
+KAFKA_CONTAINER_NAME=accountingservices-kafka-1       # Name of your Kafka Docker container
+TOPIC="my-topic"                 # Kafka topic to produce to
+MESSAGE_COUNT=100                # Number of messages to send
+BROKER_PORT=9092                 # The Kafka broker port exposed by the container
 
-# Number of messages to send
-NUM_MESSAGES=100
+# Check if the Kafka container is running
+if ! docker ps --format '{{.Names}}' | grep -q "$KAFKA_CONTAINER_NAME"; then
+  echo "Kafka container ($KAFKA_CONTAINER_NAME) is not running. Please start the container first."
+  exit 1
+fi
 
-# Function to produce messages
-produce_messages() {
-  for ((i=1;i<=NUM_MESSAGES;i++))
-  do
-    echo "Message $i" | kafka-console-producer.sh --broker-list $BROKER --topic $TOPIC > /dev/null 2>&1
-    if (( $i % 10 == 0 )); then
-      echo "Produced $i messages so far..."
-    fi
-  done
-  echo "Finished producing $NUM_MESSAGES messages."
-}
+echo "Kafka container ($KAFKA_CONTAINER_NAME) is running."
 
-# Call the function
-produce_messages
+# Produce messages to Kafka by executing the producer inside the Kafka container
+for ((i=1; i<=MESSAGE_COUNT; i++))
+do
+  docker exec -it $KAFKA_CONTAINER_NAME \
+    bash -c "echo 'Message $i' | /usr/bin/kafka-console-producer.sh --broker-list localhost:$BROKER_PORT --topic $TOPIC"
+done
 
+echo "Produced $MESSAGE_COUNT messages to topic $TOPIC."
