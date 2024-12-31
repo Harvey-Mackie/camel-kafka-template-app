@@ -103,6 +103,20 @@ public class RulesEngineService {
 
 
     public PaymentEntity applyAllRules(PaymentEntity entity, DRLStyle drlStyle) {
+        if(drlStyle.equals(DRLStyle.NO_DROOLS)){
+            var applicableRules = getApplicableRulesWithFilter(entity);
+            for (Rule applicableRule : applicableRules) {
+
+                log.info("Triggered rule {}", applicableRule.getName());
+                entity.getCharges().add(new PaymentEntity.Charge(
+                        applicableRule.getDerivationType(),
+                        applicableRule.getDerivationAmount(),
+                        applicableRule.getDerivationDescription()
+                ));
+            }
+            return entity;
+        }
+
         KieSession kieSession = createKieSession(entity, drlStyle);
 
         kieSession.insert(entity);

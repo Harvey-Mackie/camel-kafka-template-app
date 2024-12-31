@@ -82,6 +82,66 @@ public class AccountingRulesConfig {
                 .derivationDescription("Credit charge 2 applied")
                 .build();
     }
+    @Bean
+    public Rule creditChargeRule4() {
+        return rule("CreditChargeRule4")
+                .title("Apply Credit Charge 4")
+                .condition(paymentEntity -> "GBP".equals(paymentEntity.getCurrency()) && "CREDIT".equals(paymentEntity.getTransactionType())) // Predicate for condition
+                .derivationType("Credit Charge 2")
+                .derivationAmount(4.5)
+                .derivationDescription("Credit charge 2 applied")
+                .build();
+    }
+    @Bean
+    public Rule creditChargeRule5() {
+        return rule("CreditChargeRule5")
+                .title("Apply Credit Charge 5")
+                .condition(paymentEntity -> "GBP".equals(paymentEntity.getCurrency()) && "CREDIT".equals(paymentEntity.getTransactionType())) // Predicate for condition
+                .derivationType("Credit Charge 2")
+                .derivationAmount(4.5)
+                .derivationDescription("Credit charge 2 applied")
+                .build();
+    }
+    @Bean
+    public Rule creditChargeRule6() {
+        return rule("CreditChargeRule6")
+                .title("Apply Credit Charge 6")
+                .condition(paymentEntity -> "GBP".equals(paymentEntity.getCurrency()) && "CREDIT".equals(paymentEntity.getTransactionType())) // Predicate for condition
+                .derivationType("Credit Charge 2")
+                .derivationAmount(4.5)
+                .derivationDescription("Credit charge 2 applied")
+                .build();
+    }
+    @Bean
+    public Rule creditChargeRule7() {
+        return rule("CreditChargeRule7")
+                .title("Apply Credit Charge 7")
+                .condition(paymentEntity -> "GBP".equals(paymentEntity.getCurrency()) && "CREDIT".equals(paymentEntity.getTransactionType())) // Predicate for condition
+                .derivationType("Credit Charge 2")
+                .derivationAmount(4.5)
+                .derivationDescription("Credit charge 2 applied")
+                .build();
+    }
+    @Bean
+    public Rule creditChargeRule8() {
+        return rule("CreditChargeRule8")
+                .title("Apply Credit Charge 8")
+                .condition(paymentEntity -> "GBP".equals(paymentEntity.getCurrency()) && "CREDIT".equals(paymentEntity.getTransactionType())) // Predicate for condition
+                .derivationType("Credit Charge 2")
+                .derivationAmount(4.5)
+                .derivationDescription("Credit charge 2 applied")
+                .build();
+    }
+    @Bean
+    public Rule creditChargeRule9() {
+        return rule("CreditChargeRule9")
+                .title("Apply Credit Charge 9")
+                .condition(paymentEntity -> "GBP".equals(paymentEntity.getCurrency()) && "CREDIT".equals(paymentEntity.getTransactionType())) // Predicate for condition
+                .derivationType("Credit Charge 2")
+                .derivationAmount(4.5)
+                .derivationDescription("Credit charge 2 applied")
+                .build();
+    }
 
     // Filter DEBIT rules
     @Bean

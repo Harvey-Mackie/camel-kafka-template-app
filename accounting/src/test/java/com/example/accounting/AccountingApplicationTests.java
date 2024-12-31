@@ -23,7 +23,7 @@ class AccountingApplicationTests {
 	void testApplyAllRules() {
 		// Create a test PaymentEntity
 		PaymentEntity paymentEntity = PaymentEntity.builder()
-				.transactionType("DEBIT")
+				.transactionType("CREDIT")
 				.transactionId("12345")
 				.customerId("CUST123")
 				.amount(100.5)
@@ -34,6 +34,11 @@ class AccountingApplicationTests {
 
 
 		// Apply the rules to the PaymentEntity
+		List<Long> memoryUsedWithoutDrools = new ArrayList<>();
+		for(int i = 0; i < 20; i++){
+			memoryUsedWithoutDrools.add(this.applyRules(paymentEntity, DRLStyle.NO_DROOLS));
+		}
+
 		List<Long> memoryUsedInDefault = new ArrayList<>();
 		for(int i = 0; i < 20; i++){
 			memoryUsedInDefault.add(this.applyRules(paymentEntity, DRLStyle.DEFAULT));
@@ -47,29 +52,40 @@ class AccountingApplicationTests {
 		// Sort the lists to compute the median
 		Collections.sort(memoryUsedInDefault);
 		Collections.sort(memoryUsedWithFilter);
+		Collections.sort(memoryUsedWithoutDrools);
 
 		// Calculate the median for each
 		long medianDefault = calculateMedian(memoryUsedInDefault);
 		long medianWithFilter = calculateMedian(memoryUsedWithFilter);
+		long medianWithoutDrools = calculateMedian(memoryUsedWithoutDrools);
 
 		// Calculate the mean for each
 		long meanDefault = calculateMean(memoryUsedInDefault);
 		long meanWithFilter = calculateMean(memoryUsedWithFilter);
+		long meanWithoutDrools = calculateMean(memoryUsedWithoutDrools);
 
 		// Output the results
 		System.out.println("Median memory used with DRLStyle.DEFAULT: " + medianDefault + " bytes");
 		System.out.println("Median memory used with DRLStyle.WITH_EVAL_FILTER: " + medianWithFilter + " bytes");
+		System.out.println("Median memory used with DRLStyle.NO_DROOLS: " + medianWithoutDrools + " bytes");
 
 		// Calculate percentage improvement
 		double percentageImprovement = ((double)(medianDefault - medianWithFilter) / medianDefault) * 100;
 		double percentageImprovementMean = ((double)(meanDefault - meanWithFilter) / medianDefault) * 100;
+		double percentageImprovementWithoutDrools = ((double)(meanWithFilter - meanWithoutDrools) / meanWithFilter) * 100;
 
 		// Print the percentage improvement
 		System.out.printf("MEDIAN Memory improvement with DRLStyle.WITH_EVAL_FILTER: %.2f%%\n", percentageImprovement);
 		System.out.printf("MEAN Memory improvement with DRLStyle.WITH_EVAL_FILTER: %.2f%%\n", percentageImprovementMean);
+		System.out.printf("MEAN Memory improvement with DRLStyle.NO_DROOLS: %.2f%%\n", percentageImprovementWithoutDrools);
 
 
 		// Compare the two medians
+		if(medianWithoutDrools < medianWithFilter){
+			var mbDifference = convertBytesToMb(medianWithFilter) - convertBytesToMb(medianWithoutDrools);
+			var mbDifferenceFromBAU = convertBytesToMb(medianDefault) - convertBytesToMb(medianWithoutDrools);
+			System.out.println("DRLStyle.NO_DROOLS is more memory efficient - " + mbDifference + " or " + mbDifferenceFromBAU);
+		}
 		if (medianDefault < medianWithFilter) {
 			System.out.println("DRLStyle.DEFAULT is more memory efficient.");
 		} else if (medianWithFilter < medianDefault) {
@@ -80,6 +96,11 @@ class AccountingApplicationTests {
 
 		// Optionally assert that one approach is more efficient if needed
 		assertThat(medianWithFilter).isLessThan(medianDefault);
+		assertThat(medianWithoutDrools).isLessThan(medianWithFilter);
+	}
+
+	private double convertBytesToMb(long bytes){
+		return (double) bytes / 1_048_576;
 	}
 
 	private long calculateMedian(List<Long> memoryUsages) {

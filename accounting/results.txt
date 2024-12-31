@@ -1,0 +1,1 @@
+DRLStyle.NO_DROOLS Memory used: 152216 bytes
