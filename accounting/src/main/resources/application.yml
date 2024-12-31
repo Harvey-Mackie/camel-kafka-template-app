@@ -1,4 +1,35 @@
-spring.application.name=adapter
-spring.kafka.bootstrap-servers=localhost:9092
-camel.springboot.main-run-controller=true
-server.port=8081
+server.port: 8085
+
+spring:
+  application:
+    name: adapter
+  kafka:
+    bootstrap-server: localhost:9092
+
+camel:
+  springboot:
+    main-run-controller: true
+  component:
+    kafka:
+      brokers: localhost:9092
+      auto-commit-enable: false
+      allow-manual-commit: true
+      autoCommitEnable: false
+      allowManualCommit: true
+      auto-offset-reset: earliest
+      max-poll-interval-ms: 600000
+
+
+logging:
+  level:
+    org:
+      apache:
+        kafka:
+          clients:
+            consumer: ERROR
+            NetworkClient: ERROR
+          common: ERROR
+        camel:
+          component:
+            kafka: ERROR
+          processor: ERROR
