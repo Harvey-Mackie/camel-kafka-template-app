@@ -35,3 +35,7 @@ build/
 /shelf/
 /workspace.xml
 .DS_Store
+
+*/*.txt
+*.txt
+*.*.swp

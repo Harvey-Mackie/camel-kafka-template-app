@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 name: accountingservices
 
 services:
@@ -58,3 +58,4 @@ services:
       KAFKA_BROKER: kafka:9092
     ports:
       - "8082:8082"
+
